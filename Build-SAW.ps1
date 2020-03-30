@@ -47,13 +47,15 @@ Choco install rvtools -y
 Choco install vmware-tools -y
 Set-PowerCLIConfiguration -Scope AllUsers -ParticipateInCEIP $false -confirm:$false
 
-
-# Create default powershell profile for All Users / All Hosts
-Invoke-WebRequest -Uri "https://raw.githubusercontent.com/SUBnet192/Scripts/master/profile.ps1" -Outfile $PROFILE.AllusersAllHosts
-
 # SpecOps
 Invoke-WebRequest -Uri "https://download.specopssoft.com/Release/gpupdate/specopsgpupdatesetup.exe" -OutFile C:\Scripts\specops.exe
 7z x C:\Scripts\specops.exe -oC:\Temp\
 Start-Process -FilePath "$env:systemroot\system32\msiexec.exe" -ArgumentList '/i "C:\Temp\Products\SpecOpsGPUpdate\SpecopsGpupdate-x64.msi" /qb' -Wait
 rd C:\Temp -Recurse -Force
 del C:\Scripts\specops.exe
+
+# Create default powershell profile for All Users / All Hosts
+Invoke-WebRequest -Uri "https://raw.githubusercontent.com/SUBnet192/Scripts/master/profile.ps1" -Outfile $PROFILE.AllusersAllHosts
+
+# Reboot to complete installation
+shutdown -t -0 -r
