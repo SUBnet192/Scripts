@@ -241,8 +241,8 @@ configuration BuildFirstDC
         # Domain Configuration
         ###############################################################################################################################################
 
-        if ($Node.LocalAdminPassword) {
-            $LocalAdminCredential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList ('Administrator', (ConvertTo-SecureString $Node.LocalAdminPassword -AsPlainText -Force))
+        if ($Node.DSRMPassword) {
+            $LocalAdminCredential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList ('Administrator', (ConvertTo-SecureString $Node.DSRMPassword -AsPlainText -Force))
         }
 
         if ($Node.DomainAdminPassword) {
@@ -347,7 +347,7 @@ $ConfigData = @{
             Forwarders                  = @('8.8.8.8', '8.8.4.4')
             UserName                    = "Administrator"
             DomainAdminPassword         = 'NotTheRealOne!'
-            LocalAdminPassword          = 'NotTheRealOne!'
+            DSRMPassword                = 'NotTheRealOne!'
             PSDscAllowPlainTextPassword = $true
             PSDscAllowDomainUser        = $true
         }
