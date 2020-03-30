@@ -345,7 +345,6 @@ $ConfigData = @{
             DCLogPath                   = "D:\NTDS"
             SysvolPath                  = "D:\Sysvol"
             Forwarders                  = @('8.8.8.8', '8.8.4.4')
-            UserName                    = "Administrator"
             DomainAdminPassword         = 'NotTheRealOne!'
             DSRMPassword                = 'NotTheRealOne!'
             PSDscAllowPlainTextPassword = $true
