@@ -1,5 +1,5 @@
 # Call this script from a powershell command prompt using this command:
-# Invoke-WebRequest -uri "https://raw.githubusercontent.com/SUBnet192/Scripts/master/Build-SAW.ps1"
+# Invoke-WebRequest -uri "https://raw.githubusercontent.com/SUBnet192/Scripts/master/Build-AdminJumpPoint.ps1"
 
 # Preparation
 Set-PSRepository PSGallery -InstallationPolicy Trusted
