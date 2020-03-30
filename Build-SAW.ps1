@@ -13,7 +13,7 @@ Install-WindowsFeature -IncludeAllSubFeature RSAT
 Install-Module testimo
 Find-Module SUBNET192* | Install-Module
 
-Set-ExecutionPolicy Bypass -Scope Process -Force; iwr https://chocolatey.org/install.ps1 -UseBasicParsing | iex
+Set-ExecutionPolicy Bypass -Scope Process -Force; Invoke-WebRequest -uri "https://chocolatey.org/install.ps1" -UseBasicParsing | Invoke-Expression
 # Chocolatey tools
 Choco install chocolatey-gui -y
 
@@ -58,4 +58,4 @@ del C:\Scripts\specops.exe
 Invoke-WebRequest -Uri "https://raw.githubusercontent.com/SUBnet192/Scripts/master/profile.ps1" -Outfile $PROFILE.AllusersAllHosts
 
 # Reboot to complete installation
-shutdown -t -0 -r
+Restart-Computer
