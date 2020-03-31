@@ -10,14 +10,14 @@ New-Item -Path C:\ -Name Scripts -ItemType Directory
 Install-WindowsFeature -IncludeAllSubFeature RSAT
 
 # Install Powershell modules
-Install-Module -Name VMware.PowerCLI
+Install-Module -Name VMware.PowerCLI -AllowClobber
 Install-Module -Name Testimo
 Find-Module -Name SUBNET192* | Install-Module
 
 
 Set-ExecutionPolicy Bypass -Scope Process -Force; Invoke-WebRequest -uri "https://chocolatey.org/install.ps1" -UseBasicParsing | Invoke-Expression
 # Chocolatey tools
-Choco install chocolatey-gui -y
+Choco install chocolateygui -y
 
 # Essential tools
 Choco install notepadplusplus -y
