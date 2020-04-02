@@ -119,7 +119,7 @@ $block = @"
  
 .     .       .  .   . .   .   . .    +  .
   .     .  :     .    .. :. .___---------___.
-       .  .   .    .  :.:. _".^ .^ ^.  '.. :"-_. .                SECURE ACCESS WORKSTATION
+       .  .   .    .  :.:. _".^ .^ ^.  '.. :"-_. .                ADMINISTRATIVE WORKSTATION
     .  :       .  .  .:../:            . .^  :.:\.
         .   . :: +. :.:/: .   .    .        . . .:\               Logged in user: $(whoami)
  .  :    .     . _ :::/:               .  ^ .  . .:\              Elevated Privileges: $(Test-Administrator)
