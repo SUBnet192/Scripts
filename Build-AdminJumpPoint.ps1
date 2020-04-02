@@ -1,6 +1,9 @@
 # Call this script from a powershell command prompt using this command:
 # Invoke-WebRequest -uri "https://raw.githubusercontent.com/SUBnet192/Scripts/master/Build-AdminJumpPoint.ps1" | Invoke-Expression
 
+# Force TLS 1.2 to install Chocolatey since 01/2020
+[System.Net.ServicePointManager]::SecurityProtocol.HasFlag([Net.SecurityProtocolType]::Tls12)
+
 # Preparation
 Set-PSRepository PSGallery -InstallationPolicy Trusted
 Set-ExecutionPolicy RemoteSigned -Force
