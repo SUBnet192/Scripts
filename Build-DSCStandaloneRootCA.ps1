@@ -10,6 +10,8 @@
       R: CDROM
    - Install and configure Active Directory Certificate Services
 
+   *-* Adapted for my personal use from https://github.com/PlagueHO/LabBuilder
+   
 .NOTES
    ####################################################################################
    # Pre-requisites
