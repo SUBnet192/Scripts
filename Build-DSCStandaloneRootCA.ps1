@@ -1,29 +1,31 @@
 <#
-DSC Configuration for Standalone Root CA on Windows Server 2019
+.SYNOPSIS
+   DSC Configuration for Standalone Root CA on Windows Server 2019
 
-- Prepare hard disks
-   C: OS
-   P: Pagefile (10gb disk)
-   R: CDROM
+.DESCRIPTION
+   DSC configuration script to apply necessary configurations to build an Offline Root CA
+   - Prepare hard disks
+      C: OS
+      P: Pagefile (Recommend a 10GB virtual disk, thin provisioned)
+      R: CDROM
+   - Install and configure Active Directory Certificate Services
 
-- Install ADCS service
+.NOTES
+   ####################################################################################
+   # Pre-requisites
+   ####################################################################################
 
-####################################################################################
-# Pre-requisites
-####################################################################################
+   Set-ExecutionPolicy RemoteSigned
+   Set-PSRepository PSGallery -InstallationPolicy Trusted -Force
+   Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force
 
-Set-ExecutionPolicy RemoteSigned
-Set-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon' -Name Shell -Value 'PowerShell.exe -NoExit'
-Set-PSRepository PSGallery -InstallationPolicy Trusted
+   Install-Module -Name xComputerManagement
+   Install-Module -Name ActiveDirectoryCSDsc
+   Install-Module -Name xStorage
 
-Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force
-Install-Module -Name xComputerManagement
-Install-Module -Name ActiveDirectoryCSDsc
-Install-Module -Name xStorage
-New-Item -Path C:\ -Name DSC -ItemType Directory
+   New-Item -Path C:\ -Name DSC -ItemType Directory
 
-####################################################################################
-
+   ####################################################################################
 #>
 
 #####################################################################################################################################################
