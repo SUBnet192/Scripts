@@ -154,8 +154,9 @@ Configuration BuildRootCA
       File CAPolicy {
          Ensure          = 'Present'
          DestinationPath = 'C:\Windows\CAPolicy.inf'
-         Contents        = 
-         "[Version]`r`n Signature= `"$Windows NT$`"`r`n[Certsrv_Server]`r`n RenewalKeyLength=4096`r`n RenewalValidityPeriod=Years`r`n RenewalValidityPeriodUnits=20`r`n HashAlgorithm=RSASHA256`r`n CRLPeriod=Years`r`n CRLPeriodUnits=20`r`n CRLDeltaPeriod=Days`r`n CRLDeltaPeriodUnits=0`r`n LoadDefaultTemplates=0`r`n[CRLDistributionPoint]`r`n[AuthorityInformationAccess]`r`n"
+         Contents        = "[Version]`r`n Signature= `"$Windows NT$`"`r`n[PolicyStatementExtension]`r`n Policies=InternalPolicy`r`n[InternalPolicy]`r`n OID=$($Node.OID)`r`n URL=$($Node.PolicyURL)`r`n[Certsrv_Server]`r`n RenewalKeyLength=4096`r`n RenewalValidityPeriod=Years`r`n RenewalValidityPeriodUnits=20`r`n HashAlgorithm=RSASHA256`r`n CRLPeriod=Years`r`n CRLPeriodUnits=20`r`n CRLDeltaPeriod=Days`r`n CRLDeltaPeriodUnits=0`r`n LoadDefaultTemplates=0`r`n[CRLDistributionPoint]`r`n[AuthorityInformationAccess]`r`n"
+
+
          Type            = 'File'
       }
 
@@ -297,6 +298,8 @@ $ConfigData = @{
          CADistinguishedNameSuffix   = 'DC=DOMAINNAME,DC=LOCAL'
          CRLPublicationURLs          = '65:C:\Windows\system32\CertSrv\CertEnroll\%3%8%9.crl\n79:ldap:///CN=%7%8,CN=%2,CN=CDP,CN=Public Key Services,CN=Services,%6%10\n6:http://pki.domainname.local/CertEnroll/%3%8%9.crl'
          CACertPublicationURLs       = '1:C:\Windows\system32\CertSrv\CertEnroll\%1_%3%4.crt\n2:ldap:///CN=%7,CN=AIA,CN=Public Key Services,CN=Services,%6%11\n2:http://pki.domainname.local/CertEnroll/%1_%3%4.crt'
+         OID                         = "TO BE DETERMINED" # Request OID at https://pen.iana.org/pen/PenApplication.page
+         PolicyURL                   = "http://pki.domainname.local/pki/cps.html"
          CRLPeriodUnits              = 20
          CRLPeriod                   = 'Years'
          CRLOverlapUnits             = 3
