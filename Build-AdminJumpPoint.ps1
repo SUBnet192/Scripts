@@ -1,7 +1,7 @@
 # Call this script from a powershell command prompt using this command:
 # Invoke-WebRequest -uri "https://raw.githubusercontent.com/SUBnet192/Scripts/master/Build-AdminJumpPoint.ps1" | Invoke-Expression
 
-# Force TLS 1.2 to install Chocolatey since 01/2020
+# Force TLS 1.2 (Required by PowerShell Gallery and Chocolatey)
 [System.Net.ServicePointManager]::SecurityProtocol.HasFlag([Net.SecurityProtocolType]::Tls12)
 
 # Preparation
@@ -16,10 +16,11 @@ Install-WindowsFeature -IncludeAllSubFeature RSAT
 Install-Module -Name VMware.PowerCLI -AllowClobber
 Install-Module -Name Testimo
 Install-Module -Name DSInternals
+Install-Module -Name PSPKI
 Find-Module -Name SUBNET192* | Install-Module
 
-Set-ExecutionPolicy Bypass -Scope Process -Force; Invoke-WebRequest -uri "https://chocolatey.org/install.ps1" -UseBasicParsing | Invoke-Expression
 # Chocolatey tools
+Set-ExecutionPolicy Bypass -Scope Process -Force; Invoke-WebRequest -uri "https://chocolatey.org/install.ps1" -UseBasicParsing | Invoke-Expression
 Choco install chocolateygui -y
 
 # Essential tools
