@@ -32,6 +32,7 @@ Choco install winscp -y
 Choco install filezilla -y
 Choco install openssh -y
 Choco install git -y
+Choco install ad-tidy-free -y
 
 # Microsoft Tools
 Choco install sysinternals -y
