@@ -2,7 +2,7 @@
 # Invoke-WebRequest -uri "https://raw.githubusercontent.com/SUBnet192/Scripts/master/Build-AdminJumpPoint.ps1" | Invoke-Expression
 
 # Force TLS 1.2 (Required by PowerShell Gallery and Chocolatey)
-[System.Net.ServicePointManager]::SecurityProtocol.HasFlag([Net.SecurityProtocolType]::Tls12)
+[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 
 # Preparation
 Set-PSRepository PSGallery -InstallationPolicy Trusted
