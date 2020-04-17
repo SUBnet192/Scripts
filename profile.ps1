@@ -1,4 +1,10 @@
 #======================================================================================
+# Enable TLS 1.2
+#======================================================================================
+
+[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+
+#======================================================================================
 # Set console color scheme
 #======================================================================================
 #New-Item HKCU:\Console\%systemroot%_System32_WindowsPowerShell_v1.0_powershell.exe -force | Set-ItemProperty -Name ColorTable00 -Value 0x00562401 -PassThru | Set-ItemProperty -Name ColorTable07 -Value 0x00f0edee
