@@ -17,8 +17,8 @@
    # Pre-requisites
    ####################################################################################
 
-   Set-ExecutionPolicy RemoteSigned
-   Set-PSRepository PSGallery -InstallationPolicy Trusted -Force
+   Set-ExecutionPolicy RemoteSigned -Force
+   Set-PSRepository PSGallery -InstallationPolicy Trusted
    Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force
 
    Install-Module -Name xComputerManagement
@@ -158,7 +158,7 @@ Configuration BuildRootCA
       File CAPolicy {
          Ensure          = 'Present'
          DestinationPath = 'C:\Windows\CAPolicy.inf'
-         Contents        = "[Version]`r`n Signature= `"$Windows NT$`"`r`n[PolicyStatementExtension]`r`n Policies=InternalPolicy`r`n[InternalPolicy]`r`n OID=$($Node.OID)`r`n URL=$($Node.PolicyURL)`r`n[Certsrv_Server]`r`n RenewalKeyLength=4096`r`n RenewalValidityPeriod=Years`r`n RenewalValidityPeriodUnits=20`r`n HashAlgorithm=RSASHA256`r`n CRLPeriod=Years`r`n CRLPeriodUnits=20`r`n CRLDeltaPeriod=Days`r`n CRLDeltaPeriodUnits=0`r`n LoadDefaultTemplates=0`r`n[CRLDistributionPoint]`r`n[AuthorityInformationAccess]`r`n"
+         Contents        = "[Version]`r`n Signature=`"`$Windows NT$`"`r`n[PolicyStatementExtension]`r`n Policies=InternalPolicy`r`n[InternalPolicy]`r`n OID=$($Node.OID)`r`n URL=$($Node.PolicyURL)`r`n[Certsrv_Server]`r`n RenewalKeyLength=4096`r`n RenewalValidityPeriod=Years`r`n RenewalValidityPeriodUnits=20`r`n HashAlgorithm=RSASHA256`r`n CRLPeriod=Years`r`n CRLPeriodUnits=20`r`n CRLDeltaPeriod=Days`r`n CRLDeltaPeriodUnits=0`r`n LoadDefaultTemplates=0`r`n[CRLDistributionPoint]`r`n[AuthorityInformationAccess]`r`n"
 
 
          Type            = 'File'
