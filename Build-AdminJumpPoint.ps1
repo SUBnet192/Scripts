@@ -14,6 +14,12 @@ Install-WindowsFeature -IncludeAllSubFeature RSAT
 
 # Install Powershell modules
 Install-Module -Name VMware.PowerCLI -AllowClobber
+
+Install-Module -Name AzureAD
+Install-Module -Name MSOnline
+Install-Module –Name Microsoft.Online.SharePoint.PowerShell
+Install-Module –Name MicrosoftTeams
+
 Install-Module -Name Testimo
 Install-Module -Name DSInternals
 Install-Module -Name PSPKI
@@ -38,15 +44,11 @@ Choco install ad-tidy-free -y
 Choco install sysinternals -y
 Choco install vscode -y
 Choco install vscode-powershell -y
+Choco install azcopy -y
 
 # SQL Related
 Choco install sql-server-management-studio -y
 Choco install dbatools -y
-
-# Cloud - Azure / Office365
-Choco install azure-cli -y
-Choco install azcopy -y
-Choco install msoid-cli -y
 
 # Vmware related
 Choco install rvtools -y
