@@ -17,8 +17,8 @@ Install-Module -Name VMware.PowerCLI -AllowClobber
 
 Install-Module -Name AzureAD
 Install-Module -Name MSOnline
-Install-Module –Name Microsoft.Online.SharePoint.PowerShell
-Install-Module –Name MicrosoftTeams
+Install-Module -Name Microsoft.Online.SharePoint.PowerShell
+Install-Module -Name MicrosoftTeams
 
 Install-Module -Name Testimo
 Install-Module -Name DSInternals
