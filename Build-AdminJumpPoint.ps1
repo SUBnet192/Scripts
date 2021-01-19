@@ -52,7 +52,6 @@ Choco install dbatools -y
 
 # Vmware related
 Choco install rvtools -y
-Choco install vmware-tools -y
 Set-PowerCLIConfiguration -Scope AllUsers -ParticipateInCEIP $false -confirm:$false
 
 # SpecOps GPUpdate
