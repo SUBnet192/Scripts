@@ -126,7 +126,7 @@ $block = @"
  
 .     .       .  .   . .   .   . .    +  .
   .     .  :     .    .. :. .___---------___.
-       .  .   .    .  :.:. _".^ .^ ^.  '.. :"-_. .                ADMINISTRATIVE WORKSTATION
+       .  .   .    .  :.:. _".^ .^ ^.  '.. :"-_. .                PowerShell $($PSVersionTable.PSVersion.ToString())
     .  :       .  .  .:../:            . .^  :.:\.
         .   . :: +. :.:/: .   .    .        . . .:\               Logged in user: $(whoami)
  .  :    .     . _ :::/:               .  ^ .  . .:\              Elevated Privileges: $(Test-Administrator)
