@@ -41,7 +41,8 @@ function halt { shutdown /s /t 5 }
 function here { Invoke-Item . }
 function Find-Files ([string] $glob) { get-childitem -recurse -include $glob }
 function Remove-Directory ([string] $glob) { remove-item -recurse -force $glob }
-Function Edit-Profile() { vsc $PROFILE.AllUsersAllHosts }
+function Edit-Profile() { vsc $PROFILE.AllUsersAllHosts }
+function Clear-Logs { wevtutil el | % {wevtutil cl $_} }
 
 #======================================================================================
 # Start Elevated session
