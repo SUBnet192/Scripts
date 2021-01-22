@@ -12,6 +12,13 @@ New-Item -Path C:\ -Name Scripts -ItemType Directory
 # Install RSAT
 Install-WindowsFeature -IncludeAllSubFeature RSAT
 
+# Install WAC
+mkdir C:\Sources
+$dlPath = 'C:\Sources\WAC.msi'
+Invoke-WebRequest 'http://aka.ms/WACDownload' -OutFile $dlPath
+$port = 443
+msiexec /i $dlPath /qn /L*v log.txt SME_PORT=$port SSL_CERTIFICATE_OPTION=generate
+
 # Install Powershell modules
 Install-Module -Name VMware.PowerCLI -AllowClobber
 
@@ -55,8 +62,8 @@ Choco install rvtools -y
 Set-PowerCLIConfiguration -Scope AllUsers -ParticipateInCEIP $false -confirm:$false
 
 # SpecOps GPUpdate
-Invoke-WebRequest -Uri "https://download.specopssoft.com/Release/gpupdate/specopsgpupdatesetup.exe" -OutFile C:\Scripts\specops.exe
-7z x C:\Scripts\specops.exe -oC:\Temp\
+Invoke-WebRequest -Uri "https://download.specopssoft.com/Release/gpupdate/specopsgpupdatesetup.exe" -OutFile C:\Sources\specops.exe
+7z x C:\Sources\specops.exe -oC:\Temp\
 Start-Process -FilePath "$env:systemroot\system32\msiexec.exe" -ArgumentList '/i "C:\Temp\Products\SpecOpsGPUpdate\SpecopsGpupdate-x64.msi" /qb' -Wait
 Remove-Item -Path C:\Temp -Recurse -Force
 Remove-Item C:\Scripts\specops.exe
