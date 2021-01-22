@@ -8,12 +8,12 @@
 Set-PSRepository PSGallery -InstallationPolicy Trusted
 Set-ExecutionPolicy RemoteSigned -Force
 New-Item -Path C:\ -Name Scripts -ItemType Directory
+New-Item -Path C:\ -Name Sources -ItemType Directory
 
 # Install RSAT
 Install-WindowsFeature -IncludeAllSubFeature RSAT
 
 # Install WAC
-mkdir C:\Sources
 $dlPath = 'C:\Sources\WAC.msi'
 Invoke-WebRequest 'http://aka.ms/WACDownload' -OutFile $dlPath
 $port = 443
