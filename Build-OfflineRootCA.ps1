@@ -36,4 +36,4 @@ Add-WindowsFeature -Name ADCS-Cert-Authority -IncludeManagementTools
 
 # Configure AD Certificate Services
 $OfflineCAName = "Corp-Root-CA"
-#Install-AdcsCertificationAuthority -CAType EnterpriseRootCa -CryptoProviderName 'RSA#Microsoft Software Key Storage Provider' -KeyLength 4096 -HashAlgorithmName SHA256 -ValidityPeriod Years -ValidityPeriodUnits 5 -CACommonName $OfflineCAName
+Install-AdcsCertificationAuthority -CAType EnterpriseRootCa -CryptoProviderName 'RSA#Microsoft Software Key Storage Provider' -KeyLength 4096 -HashAlgorithmName SHA256 -ValidityPeriod Years -ValidityPeriodUnits 5 -CACommonName $OfflineCAName
