@@ -20,7 +20,7 @@ do {
     write-host "`n"
     Get-Content C:\Windows\CAPolicy.inf
     write-host "`n"
-    Write-Host 'Are you satisfied with the contents of CAPolicy.inf? (y/n)' -NoNewline -ForegroundColor Yellow
+    Write-Host 'Are you satisfied with the contents of CAPolicy.inf? [y/n] ' -NoNewline -ForegroundColor Yellow
     $response = Read-Host
 } until ($response -eq 'y')
 
@@ -31,9 +31,9 @@ Add-WindowsFeature -Name ADCS-Cert-Authority -IncludeManagementTools
 
 Write-Host "... Install and configure AD Certificate Services" -ForegroundColor Green
 do {
-    Write-Host 'Enter the Common Name for the Offline root CA (ex: Corp-Root-CA):' -NoNewline -ForegroundColor Yellow
+    Write-Host 'Enter the Common Name for the Offline root CA (ex: Corp-Root-CA): ' -NoNewline -ForegroundColor Yellow
     $OfflineCAName = Read-Host
-    Write-Host "Are you satisfied with the CA Name '$OfflineCAName'?" -NoNewline -ForegroundColor Yellow
+    Write-Host "Are you satisfied with the CA Name '$OfflineCAName'? [y/n] " -NoNewline -ForegroundColor Yellow
     $response = Read-Host
 } until ($response -eq 'y')
 
@@ -43,9 +43,9 @@ Install-AdcsCertificationAuthority -CAType StandaloneRootCA -CACommonName $Offli
 Write-Host "... Customizing AD Certificate Services" -ForegroundColor Green
 
 do {
-    Write-Host 'Enter the URL where the CRL files will be located (ex: pki.mycompany.com)' -NoNewline -ForegroundColor Yellow
+    Write-Host 'Enter the URL where the CRL files will be located (ex: pki.mycompany.com): ' -NoNewline -ForegroundColor Yellow
     $URL = Read-Host
-    Write-Host "Are you satisfied with the URL '$URL'?" -NoNewline -ForegroundColor Yellow
+    Write-Host "Are you satisfied with the URL '$URL'? [y/n] " -NoNewline -ForegroundColor Yellow
     $response = Read-Host
 } until ($response -eq 'y')
 
@@ -62,5 +62,8 @@ Add-CAAuthorityInformationAccess -AddToCertificateAia "http://$URL/certenroll/<C
 certutil.exe -setreg CA\CRLOverlapPeriodUnits 3
 certutil.exe -setreg CA\CRLOverlapPeriod "Weeks"
 certutil.exe -setreg CA\AuditFilter 127
+Write-Host "... Restarting AD Certificate Services" -ForegroundColor Green
 Restart-Service certsvc
+Start-Sleep 5
+Write-Host "... Publishing CRL" -ForegroundColor Green
 certutil -crl
