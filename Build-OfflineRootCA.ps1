@@ -1,6 +1,9 @@
 # Call this script from a powershell command prompt using this command:
 # Invoke-WebRequest -usebasicparsing -uri "https://raw.githubusercontent.com/SUBnet192/Scripts/master/Build-OfflineRootCA.ps1" | Invoke-Expression
 
+$response = $null
+$OfflineCAName = "Corp-Root-CA"
+$URL = "pki.corp.com"
 Clear-Host
 Write-Host "Building Offline Root CA" -ForegroundColor Green
 write-host "`n"
