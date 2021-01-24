@@ -1,6 +1,7 @@
 # Call this script from a powershell command prompt using this command:
 # Invoke-WebRequest -usebasicparsing -uri "https://raw.githubusercontent.com/SUBnet192/Scripts/master/Build-OfflineRootCA.ps1" | Invoke-Expression
-
+Cls
+Write-Host "Building Offline Root CA"
 # Set default shell to Powershell
 Set-ItemProperty -Path 'HKLM:\Software\Microsoft\Windows NT\CurrentVersion\WinLogon' -Name Shell -Value 'PowerShell.exe'
 
