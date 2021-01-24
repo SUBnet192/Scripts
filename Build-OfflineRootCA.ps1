@@ -7,7 +7,7 @@ Set-ItemProperty -Path 'HKLM:\Software\Microsoft\Windows NT\CurrentVersion\WinLo
 
 # Preparation
 Set-ExecutionPolicy RemoteSigned -Force
-New-Item -Path C:\ -Name Scripts -ItemType Directory
+New-Item -Path C:\ -Name Scripts -ItemType Directory -Force
 
 # Download CAPolicy.inf for Offline Root CA
 Invoke-WebRequest -Uri "hhttps://raw.githubusercontent.com/SUBnet192/inf/main/CAPolicy.inf.offlineroot" -Outfile "C:\Windows\CAPolicy.inf"
