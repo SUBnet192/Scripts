@@ -26,7 +26,7 @@ do {
     if ($response -eq 'n') {
        Start-Process -Wait -FilePath "notepad.exe" -ArgumentList "c:\windows\capolicy.inf"
        Write-Host ""
-       Get-Content C:\Windows\CAPolicy.inf"
+       Get-Content C:\Windows\CAPolicy.inf
        Write-Host ""
     }
 } until ($response -eq 'y')
