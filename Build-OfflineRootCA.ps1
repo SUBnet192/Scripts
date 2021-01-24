@@ -14,11 +14,13 @@ New-Item -Path C:\ -Name Scripts -ItemType Directory -Force | Out-Null
 Write-Host ""... Retrieving CAPolicy.inf from Github"
 Invoke-WebRequest -usebasicparsing -Uri "https://raw.githubusercontent.com/SUBnet192/inf/main/CAPolicy.inf.offlineroot" -Outfile "C:\Windows\CAPolicy.inf"
 
+Write-Host ""... Editing CAPolicy.inf"
 $tart-Process -Wait -FilePath "notepad.exe" -ArgumentList "c:\windows\capolicy.inf"
 Write-Host ""
 Get-Content C:\Windows\CAPolicy.inf"
 Write-Host ""
-$msg = 'Are you satisfied with the contents of CAPolicy.inf?'
+
+$msg = "Are you satisfied with the contents of CAPolicy.inf?"
 do {
     $response = Read-Host -Prompt $msg -ForegroundColor White
     if ($response -eq 'n') {
