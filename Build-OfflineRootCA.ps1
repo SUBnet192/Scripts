@@ -26,10 +26,10 @@ do {
 
 $response = $null
 
-Write-Host "... Install AD Certificate Services" -ForegroundColor Green
+Write-Host "... Install Windows Feature: AD Certificate Services" -ForegroundColor Green
 Add-WindowsFeature -Name ADCS-Cert-Authority -IncludeManagementTools
 
-Write-Host "... Configure AD Certificate Services" -ForegroundColor Green
+Write-Host "... Install and configure AD Certificate Services" -ForegroundColor Green
 do {
     Write-Host 'Enter the Common Name for the Offline root CA (ex: Corp-Root-CA):' -NoNewline -ForegroundColor Yellow
     $OfflineCAName = Read-Host
@@ -39,3 +39,28 @@ do {
 
 $response = $null
 Install-AdcsCertificationAuthority -CAType StandaloneRootCA -CACommonName $OfflineCAName -KeyLength 4096 -HashAlgorithm SHA256 -CryptoProviderName "RSA#Microsoft Software Key Storage Provider" -ValidityPeriod Years -ValidityPeriodUnits 5 -Force
+
+Write-Host "... Customizing AD Certificate Services" -ForegroundColor Green
+$crllist = Get-CACrlDistributionPoint; foreach ($crl in $crllist) {Remove-CACrlDistributionPoint $crl.uri -Force};
+
+do {
+    Write-Host 'Enter the URL where the CRL files will be located (ex: pki.mycompany.com)' -NoNewline -ForegroundColor Yellow
+    $URL = Read-Host
+    Write-Host "Are you satisfied with the URL '$URL'?" -NoNewline -ForegroundColor Yellow
+    $response = Read-Host
+} until ($response -eq 'y')
+
+$response = $null
+
+
+Add-CACRLDistributionPoint -Uri "$env:windir\system32\CertSrv\CertEnroll\<CaName><CRLNameSuffix><DeltaCRLAllowed>.crl" -PublishToServer -PublishDeltaToServer -Force
+Add-CACRLDistributionPoint -Uri "http://$URL/certenroll/<CAName><CRLNameSuffix><DeltaCRLAllowed>.crl" -AddToCertificateCDP -AddToFreshestCrl -Force
+
+Get-CAAuthorityInformationAccess | where {$_.Uri -like '*ldap*' -or $_.Uri -like '*http*' -or $_.Uri -like '*file*'} | Remove-CAAuthorityInformationAccess -Force
+Add-CAAuthorityInformationAccess -AddToCertificateAia "http://$URL/certenroll/<CAName><CertificateName>.crt" -Force 
+
+certutil.exe –setreg CA\CRLOverlapPeriodUnits 3
+certutil.exe –setreg CA\CRLOverlapPeriod “Weeks”
+certutil.exe -setreg CA\AuditFilter 127
+Restart-Service certsvc
+certutil -crl
