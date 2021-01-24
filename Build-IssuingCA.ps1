@@ -1,5 +1,8 @@
 # Call this script from a powershell command prompt using this command:
 # Invoke-WebRequest -usebasicparsing -uri "https://raw.githubusercontent.com/SUBnet192/Scripts/master/Build-IssuingCA.ps1" | Invoke-Expression
+$response = $null
+$IssuingCAName = $null
+$URL = $null
 
 Clear-Host
 Write-Host "Building Issuing CA" -ForegroundColor Green
