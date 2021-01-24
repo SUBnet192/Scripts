@@ -3,9 +3,9 @@
 $response = $null
 $IssuingCAName = $null
 $URL = $null
-
+$Revision = "0.0.10"
 Clear-Host
-Write-Host "Building Issuing CA" -ForegroundColor Green
+Write-Host "Building Issuing CA - Script vserion $Revision" -ForegroundColor Green
 Write-host "`n"
 
 Write-Host "... Configure WinRM" -ForegroundColor Green
