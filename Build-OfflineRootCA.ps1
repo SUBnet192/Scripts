@@ -56,8 +56,7 @@ $crllist = Get-CACrlDistributionPoint; foreach ($crl in $crllist) {Remove-CACrlD
 Add-CACRLDistributionPoint -Uri "$env:windir\system32\CertSrv\CertEnroll\<CaName><CRLNameSuffix><DeltaCRLAllowed>.crl" -PublishToServer -PublishDeltaToServer -Force
 Add-CACRLDistributionPoint -Uri "http://$URL/certenroll/<CAName><CRLNameSuffix><DeltaCRLAllowed>.crl" -AddToCertificateCDP -AddToFreshestCrl -Force
 
-Get-CAAuthorityInformationAccess | Remove-CAAuthorityInformationAccess -Force
-Add-CAAuthorityInformationAccess -Uri "$env:windir\system32\CertSrv\CertEnroll\<CaName><CertificateName>.crt" -Force
+Get-CAAuthorityInformationAccess | where {$_.Uri -like '*ldap*' -or $_.Uri -like '*http*' -or $_.Uri -like '*file*'} | Remove-CAAuthorityInformationAccess -Force
 Add-CAAuthorityInformationAccess -Uri "http://$URL/certenroll/<CAName><CertificateName>.crt" -AddToCertificateAia -Force 
 
 certutil.exe -setreg CA\CRLOverlapPeriodUnits 3
