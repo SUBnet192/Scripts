@@ -19,9 +19,11 @@ Start-Process -Wait -FilePath "notepad.exe" -ArgumentList "c:\windows\capolicy.i
 write-host "`n"
 Get-Content C:\Windows\CAPolicy.inf
 write-host "`n"
-$msg = 'Are you satisfied with the contents of CAPolicy.inf?'
+
 do {
-    $response = Read-Host -Prompt $msg -ForegroundColor White
+    Write-Host 'Are you satisfied with the contents of CAPolicy.inf? (y/n)' -NoNewline
+    $response = Read-Host
+
     if ($response -eq 'n') {
        Start-Process -Wait -FilePath "notepad.exe" -ArgumentList "c:\windows\capolicy.inf"
        write-host "`n"
