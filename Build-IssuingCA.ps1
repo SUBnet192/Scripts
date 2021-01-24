@@ -44,6 +44,6 @@ do {
 } until ($response -eq 'y')
 
 $response = $null
-Install-AdcsCertificationAuthority -CAType EnterpriseSubordinate -CACommonName $IssuingCAName -KeyLength 4096 -HashAlgorithm SHA256 -CryptoProviderName "RSA#Microsoft Software Key Storage Provider" -ValidityPeriod Years -ValidityPeriodUnits 1 -Force
+Install-AdcsCertificationAuthority -CAType EnterpriseSubordinate -CACommonName $IssuingCAName -KeyLength 4096 -HashAlgorithm SHA256 -CryptoProviderName "RSA#Microsoft Software Key Storage Provider" -Force
 
 Write-Host "... Manual intervention required before proceeding further." -ForegroundColor Cyan
