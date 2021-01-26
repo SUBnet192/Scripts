@@ -33,7 +33,7 @@ do {
 $response = $null
 
 Write-Host "... Install Windows Feature: AD Certificate Services" -ForegroundColor Green
-Add-WindowsFeature -Name ADCS-Cert-Authority Adcs-Enroll-Web-Svc -IncludeManagementTools
+Add-WindowsFeature -Name ADCS-Cert-Authority,Adcs-Enroll-Web-Svc -IncludeManagementTools
 
 Write-Host "... Install and configure AD Certificate Services" -ForegroundColor Green
 do {
