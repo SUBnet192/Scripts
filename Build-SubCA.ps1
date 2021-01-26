@@ -37,7 +37,7 @@ Add-WindowsFeature -Name ADCS-Cert-Authority,Adcs-Enroll-Web-Svc -IncludeManagem
 
 Write-Host "... Install and configure AD Certificate Services" -ForegroundColor Green
 do {
-    Write-Host 'Enter the Common Name for the Issuing CA (ex: Corp-Issuing-CA): ' -NoNewline -ForegroundColor Yellow
+    Write-Host 'Enter the Common Name for the Issuing CA (ex: Corp-Subordinate-CA): ' -NoNewline -ForegroundColor Yellow
     $IssuingCAName = Read-Host
     Write-Host "Are you satisfied with the CA Name '$IssuingCAName'? [y/n] " -NoNewline -ForegroundColor Yellow
     $response = Read-Host
