@@ -3,3 +3,7 @@
 
 # Set Powershell as default shell
 Set-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\' -Name Shell -Value 'powershell.exe'
+
+# Install latest VMware Tools
+# https://raw.githubusercontent.com/haavarstein/Applications/master/VMware/Tools/Install.ps1
+Invoke-WebRequest -usebasicparsing -uri "https://raw.githubusercontent.com/haavarstein/Applications/master/VMware/Tools/Install.ps1" | Invoke-Expression
