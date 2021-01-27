@@ -10,3 +10,9 @@ Set-Timezone "Eastern Standard Time"
 # Install latest VMware Tools
 # https://raw.githubusercontent.com/haavarstein/Applications/master/VMware/Tools/Install.ps1
 Invoke-WebRequest -usebasicparsing -uri "https://raw.githubusercontent.com/haavarstein/Applications/master/VMware/Tools/Install.ps1" | Invoke-Expression
+
+# Create default powershell profile for All Users / All Hosts
+Invoke-WebRequest -Uri "https://raw.githubusercontent.com/SUBnet192/Scripts/master/coreprofile.ps1" -Outfile $PROFILE.AllusersAllHosts
+
+# Reboot to complete installation
+Restart-Computer
