@@ -3,7 +3,7 @@
 $response = $null
 $IssuingCAName = $null
 $URL = $null
-$Revision = "0.0.10"
+$Revision = "0.0.11"
 Clear-Host
 Write-Host "Building Issuing CA - Script version $Revision" -ForegroundColor Green
 Write-host "`n"
