@@ -4,6 +4,15 @@
 # Set Powershell as default shell
 Set-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\' -Name Shell -Value 'powershell.exe'
 
+# Trust PowerShell Gallery
+Set-PSRepository PSGallery -InstallationPolicy Trusted
+
+# Set Execution Policy
+Set-ExecutionPolicy RemoteSigned -Force
+
+# Create Default Script Path
+New-Item -Path C:\ -Name Scripts -ItemType Directory
+
 # Set Timezone
 Set-Timezone "Eastern Standard Time"
 
