@@ -45,6 +45,12 @@ do {
 } until ($response -eq 'y')
 
 $response = $null
+
+# Configure Offline Root CA
+# Certificate Validty: 20 years
+# Key Length: 4096
+# Hash: SHA256
+
 Install-AdcsCertificationAuthority -CAType StandaloneRootCA -CACommonName $OfflineCAName -KeyLength 4096 -HashAlgorithm SHA256 -CryptoProviderName "RSA#Microsoft Software Key Storage Provider" -ValidityPeriod Years -ValidityPeriodUnits 20 -Force
 
 Write-Host "... Customizing AD Certificate Services" -ForegroundColor Green
