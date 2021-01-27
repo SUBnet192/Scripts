@@ -8,6 +8,9 @@ Clear-Host
 Write-Host "Building Issuing CA - Script version $Revision" -ForegroundColor Green
 Write-host "`n"
 
+Write-Host "... Install PSPKI Module" -ForegroundColor Green
+Install-Module PSPKI
+
 Write-Host "... Configure WinRM" -ForegroundColor Green
 Set-Item WSMan:\localhost\Client\TrustedHosts -Value "*" -Force
 
