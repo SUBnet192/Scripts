@@ -15,7 +15,7 @@ Write-Host "... Creating C:\Scripts folder" -ForegroundColor Green
 New-Item -Path C:\ -Name Scripts -ItemType Directory -Force | Out-Null
 
 Write-Host "... Retrieving CAPolicy.inf from Github" -ForegroundColor Green
-Invoke-WebRequest -usebasicparsing -Uri "https://raw.githubusercontent.com/SUBnet192/inf/main/CAPolicy.inf.Subordinate" -Outfile "C:\Windows\CAPolicy.inf"
+Invoke-WebRequest -usebasicparsing -Uri "https://raw.githubusercontent.com/SUBnet192/inf/main/CAPolicy.inf.subordinate" -Outfile "C:\Windows\CAPolicy.inf"
 
 do {
     Write-Host "... Editing CAPolicy.inf" -ForegroundColor Green
@@ -79,7 +79,8 @@ Invoke-Command $ORCAServer -credential $ORCACreds -scriptblock {
     Write-Host "... Retrieving Subordinate certificate"
     certreq -config $ORCAServer\$ORCAName -retrieve 2 "C:\CAConfig\SubordinateCA.crt"
     # Rename Root CA certificate (remove server name)
-    Rename-Item $ORCAServer_$ORCAName.crt $ORCAName.crt
+
+Rename-Item $ORCAServer_$ORCAName.crt $ORCAName.crt
     Remove-Item C:\CAConfig\*.REQ
 }
 
