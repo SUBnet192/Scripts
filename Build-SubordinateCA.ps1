@@ -96,11 +96,11 @@ $RootCACert = Get-ChildItem "C:\Windows\system32\CertSrv\CertEnroll\*.crt" -excl
 $RootCACRL = Get-ChildItem "C:\Windows\system32\CertSrv\CertEnroll\*.crl"
 
 # Publish Root CA certificate to AD
-certutil.exe –dsPublish –f  $RootCACert.FullName RootCA
+certutil.exe -dsPublish -f $RootCACert.FullName RootCA
 
 # Publish Root CA certificates to Subordinate server
-certutil.exe -addstore –f root $RootCACert.FullName
-certutil.exe -addstore –f root $RootCACRL.FullName
+certutil.exe -addstore -f root $RootCACert.FullName
+certutil.exe -addstore -f root $RootCACRL.FullName
 
 certutil.exe -installcert C:\Windows\System32\CertSrv\CertEnroll\SubordinateCA.crt
 
