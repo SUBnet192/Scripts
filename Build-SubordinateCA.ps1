@@ -62,25 +62,29 @@ Copy-Item C:\*.REQ -Destination X:\
 # Get Offline Root CA (ORCA) name
 
 Invoke-Command $ORCAServer -credential $ORCACreds -scriptblock {
+    # Initialize variables
     Write-Host "... Executing commands on Root CA"
     $ORCAName = (get-itemproperty -Path HKLM:\SYSTEM\CurrentControlSet\Services\CertSvc\Configuration).Active
     $ORCAServer = hostname
     $SubordinateCAReq = Get-ChildItem "C:\CAConfig\*.req"
+    
     # Submit CSR from Subordinate CA to the Root CA
     Write-Host "[DEBUG] ORCAServer:$ORCAServer" -ForegroundColor Yellow
     Write-Host "[DEBUG] ORCAName:$ORCAName" -ForegroundColor Yellow
     Write-Host "[DEBUG] SubordinateCAReq:$SubordinateCAReq" -ForegroundColor Yellow
     Write-Host "... Submitting Subordinate certificate to Root CA"
-    certreq -config $ORCAServer\$ORCAName -submit -attrib "CertificateTemplate:SubCA" $($SubordinateCAReq).Fullname
+    certreq -config $ORCAServer\$ORCAName -submit -attrib "CertificateTemplate:SubCA" $SubordinateCAReq.Fullname
+    
     # Authorize Certificate Request
     Write-Host "... Issuing Subordinate certificate"
     certutil -resubmit 2
+    
     # Retrieve Subordinate CA certificate
     Write-Host "... Retrieving Subordinate certificate"
     certreq -config $ORCAServer\$ORCAName -retrieve 2 "C:\CAConfig\SubordinateCA.crt"
+    
     # Rename Root CA certificate (remove server name)
-
-Rename-Item $ORCAServer_$ORCAName.crt $ORCAName.crt
+    Rename-Item "C:\CAConfig\$ORCAServer_$ORCAName.crt" "C:\CAConfig\$ORCAName.crt"
     Remove-Item C:\CAConfig\*.REQ
 }
 
@@ -92,11 +96,11 @@ $RootCACert = Get-ChildItem "C:\Windows\system32\CertSrv\CertEnroll\*.crt" -excl
 $RootCACRL = Get-ChildItem "C:\Windows\system32\CertSrv\CertEnroll\*.crl"
 
 # Publish Root CA certificate to AD
-certutil.exe –dsPublish –f  $($RootCACert).FullName RootCA
+certutil.exe –dsPublish –f  $RootCACert.FullName RootCA
 
 # Publish Root CA certificates to Subordinate server
-certutil.exe –addstore –f root $($RootCACert).FullName
-certutil.exe –addstore –f root $($RootCACRL).FullName
+certutil.exe –addstore –f root $RootCACert.FullName
+certutil.exe –addstore –f root $RootCACRL.FullName
 
 certutil.exe -installcert C:\Windows\System32\CertSrv\CertEnroll\SubordinateCA.crt
 
