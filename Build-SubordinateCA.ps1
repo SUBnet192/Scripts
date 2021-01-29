@@ -84,7 +84,7 @@ Invoke-Command $ORCAServer -credential $ORCACreds -scriptblock {
     certreq -config $ORCAServer\$ORCAName -retrieve 2 "C:\CAConfig\SubordinateCA.crt"
     
     # Rename Root CA certificate (remove server name)
-    Rename-Item "C:\CAConfig\$ORCAServer_$ORCAName.crt" "C:\CAConfig\$ORCAName.crt"
+    Rename-Item "C:\CAConfig\$ORCAServer"+"_"+"$ORCAName.crt" "C:\CAConfig\$ORCAName.crt"
     Remove-Item C:\CAConfig\*.REQ
 }
 
@@ -99,8 +99,8 @@ $RootCACRL = Get-ChildItem "C:\Windows\system32\CertSrv\CertEnroll\*.crl"
 certutil.exe –dsPublish –f  $RootCACert.FullName RootCA
 
 # Publish Root CA certificates to Subordinate server
-certutil.exe –addstore –f root $RootCACert.FullName
-certutil.exe –addstore –f root $RootCACRL.FullName
+certutil.exe -addstore –f root $RootCACert.FullName
+certutil.exe -addstore –f root $RootCACRL.FullName
 
 certutil.exe -installcert C:\Windows\System32\CertSrv\CertEnroll\SubordinateCA.crt
 
