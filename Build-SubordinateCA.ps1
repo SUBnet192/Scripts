@@ -2,7 +2,7 @@
 # Invoke-WebRequest -usebasicparsing -uri "https://raw.githubusercontent.com/SUBnet192/Scripts/master/Build-SubordinateCA.ps1" | Invoke-Expression
 
 Clear-Host
-Write-Host "Building Subordinate CA (Revision 0.5.1)" -ForegroundColor Green
+Write-Host "Building Subordinate CA (Revision 0.5.2)" -ForegroundColor Green
 Write-host "`n"
 
 Write-Host "... Configure WinRM" -ForegroundColor Green
