@@ -2,7 +2,7 @@
 # Invoke-WebRequest -usebasicparsing -uri "https://raw.githubusercontent.com/SUBnet192/Scripts/master/Build-SubordinateCA.ps1" | Invoke-Expression
 
 Clear-Host
-Write-Host "Building Subordinate CA (Revision 0.5.2)" -ForegroundColor Green
+Write-Host "Building Subordinate CA (Revision 0.5.3)" -ForegroundColor Green
 Write-host "`n"
 
 Write-Host "... Configure WinRM" -ForegroundColor Green
@@ -84,7 +84,9 @@ Invoke-Command $ORCAServer -credential $ORCACreds -scriptblock {
     certreq -config $ORCAServer\$ORCAName -retrieve 2 "C:\CAConfig\SubordinateCA.crt"
     
     # Rename Root CA certificate (remove server name)
-    Rename-Item "C:\CAConfig\$ORCAServer"+"_"+"$ORCAName.crt" "C:\CAConfig\$ORCAName.crt"
+    $Source = "C:\CAConfig\$ORCAServer"+"_"+"$ORCAName.crt"
+    $Target = "$ORCAName.crt"
+    Rename-Item $Source $Target  
     Remove-Item C:\CAConfig\*.REQ
 }
 
@@ -137,6 +139,13 @@ Restart-Service certsvc
 Start-Sleep 5
 Write-Host "... Publishing CRL" -ForegroundColor Green
 certutil -crl
+
+# Rename Subordinate CA certificate (remove server name)
+$ORCAName = (get-itemproperty -Path HKLM:\SYSTEM\CurrentControlSet\Services\CertSvc\Configuration).Active
+$Source = "C:\Windows\System32\CertSrv\CertEnroll\"$env:computername.$env:userdnsdomain""+"_"+"$ORCAName.crt"
+$Target = "$ORCAName.crt"
+Rename-Item $Source $Target  
+Remove-Item C:\CAConfig\*.REQ
 
 # Delete REQ at root and cleanup certenroll (subordinate)
 
