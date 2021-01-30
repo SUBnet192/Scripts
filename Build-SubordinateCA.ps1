@@ -42,6 +42,7 @@ do {
 
 $response = $null
 Install-AdcsCertificationAuthority -CAType EnterpriseSubordinateCA -CACommonName $SubordinateCAName -KeyLength 4096 -HashAlgorithm SHA256 -CryptoProviderName "RSA#Microsoft Software Key Storage Provider" -Force
+Install-AdcsWebEnrollment -Force
 
 Write-Host "... Connecting to Offline Root CA" -ForegroundColor Cyan
 write-host "`n"
