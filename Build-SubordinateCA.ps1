@@ -30,7 +30,7 @@ do {
 $response = $null
 
 Write-Host "... Install Windows Feature: AD Certificate Services" -ForegroundColor Green
-Add-WindowsFeature -Name ADCS-Cert-Authority, ADCS-Web-Enrollment -IncludeManagementTools
+Add-WindowsFeature -Name ADCS-Cert-Authority, ADCS-Web-Enrollment, Web-Mgmt-Service -IncludeManagementTools
 
 Write-Host "... Install and configure AD Certificate Services" -ForegroundColor Green
 do {
@@ -146,8 +146,34 @@ $FQDN = "$env:computername.$env:userdnsdomain"
 $Source = "C:\Windows\System32\CertSrv\CertEnroll\$FQDN"+"_"+"$ORCAName.crt"
 $Target = "$ORCAName.crt"
 Rename-Item $Source $Target  
-Remove-Item C:\CAConfig\*.REQ
+Remove-Item C:\*.REQ
 
-# Delete REQ at root and cleanup certenroll (subordinate)
+# Get the service
+$webManagementService = Get-Service WMSVC -ErrorAction Stop
+ 
+# Stop the WMSVC, if running
+if($webManagementService.Status -eq "Running") {
+    Write-Host "WMSVC was running, stopping the service..." -ForegroundColor Yellow
+    Stop-Service WMSVC
+}
+ 
+# Modify the EnableRemoteManagement property in the Windows Registry
+$enableRemoteManagement = Get-ItemProperty HKLM:\SOFTWARE\Microsoft\WebManagement\Server -Name "EnableRemoteManagement"
+if($enableRemoteManagement.EnableRemoteManagement -eq 0) {
+    Write-Host "Setting the EnableRemoteManagement property" -ForegroundColor Yellow
+    Set-ItemProperty HKLM:\SOFTWARE\Microsoft\WebManagement\Server -Name "EnableRemoteManagement" -Value 1 -ErrorAction Stop
+    Write-Host "EnableRemoteManagement property set" -ForegroundColor Green
+} else {
+    Write-Host "The EnableRemoteManagement property was already set, skipping" -ForegroundColor Yellow
+}
+ 
+# Ensure automatic start of the WMSVC service
+Write-Host "Starting the WMSVC service and enabling automatic startup" -ForegroundColor Yellow
+Start-Service WMSVC
+Set-Service WMSVC -StartupType Automatic
+Write-Host "Service started and configured" -ForegroundColor Green
+
+$port = (Get-ItemProperty HKLM:\SOFTWARE\Microsoft\WebManagement\Server -Name "Port").Port
+Write-Host "The Web Management Service is now configured running at port $port" -ForegroundColor Green
 
 #>
