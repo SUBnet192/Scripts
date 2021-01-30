@@ -29,7 +29,7 @@
 $ErrorActionPreference = "Stop"
 
 Clear-Host
-Write-Host "Revision 1.0" -Foreground Magenta
+Write-Host "Build-SubordinateCA.ps1 ---- Revision 1.1" -Foreground Magenta
 Write-Host "[INIT] Configure WinRM" -ForegroundColor Cyan
 Set-Item WSMan:\localhost\Client\TrustedHosts -Value "*" -Force  | Out-Null
 
