@@ -142,7 +142,8 @@ certutil -crl
 
 # Rename Subordinate CA certificate (remove server name)
 $ORCAName = (get-itemproperty -Path HKLM:\SYSTEM\CurrentControlSet\Services\CertSvc\Configuration).Active
-$Source = "C:\Windows\System32\CertSrv\CertEnroll\"$env:computername.$env:userdnsdomain""+"_"+"$ORCAName.crt"
+$FQDN = "$env:computername.$env:userdnsdomain"
+$Source = "C:\Windows\System32\CertSrv\CertEnroll\$FQDN"+"_"+"$ORCAName.crt"
 $Target = "$ORCAName.crt"
 Rename-Item $Source $Target  
 Remove-Item C:\CAConfig\*.REQ
