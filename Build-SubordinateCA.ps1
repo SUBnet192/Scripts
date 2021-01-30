@@ -31,10 +31,10 @@ $ErrorActionPreference = "Stop"
 Clear-Host
 
 Write-Host "[INIT] Configure WinRM" -ForegroundColor Cyan
-Set-Item WSMan:\localhost\Client\TrustedHosts -Value "*" -Force
+Set-Item WSMan:\localhost\Client\TrustedHosts -Value "*" -Force  | Out-Null
 
-Write-Host "[INIT] Adding required Windows Features" -ForegroundColor Green
-Add-WindowsFeature -Name ADCS-Cert-Authority, ADCS-Web-Enrollment, Web-Mgmt-Service -IncludeManagementTools
+Write-Host "[INIT] Adding required Windows Features" -ForegroundColor Cyan
+Add-WindowsFeature -Name ADCS-Cert-Authority, ADCS-Web-Enrollment, Web-Mgmt-Service -IncludeManagementTools | Out-Null
 
 #----------------------------------------------------[ Declarations ]-----------------------------------------------------
 
@@ -52,7 +52,7 @@ do {
     Write-Host "`n"
     Get-Content C:\Windows\CAPolicy.inf
     Write-Host "`n"
-    Write-Host 'Are you satisfied with the contents of CAPolicy.inf? [y/n] ' -NoNewline -ForegroundColor Yellow
+    Write-Host '[PROMPT] Are you satisfied with the contents of CAPolicy.inf? [y/n] ' -NoNewline -ForegroundColor Yellow
     $response = Read-Host
 } until ($response -eq 'y')
 
@@ -101,15 +101,15 @@ Invoke-Command $OfflineRootCAServer -credential $OfflineRootCACreds -scriptblock
     #Write-Host "[DEBUG] ORCAName:$OfflineRootCAName" -ForegroundColor Yellow
     #Write-Host "[DEBUG] SubordinateCAReq:$SubordinateCAReq" -ForegroundColor Yellow
     Write-Host "[REMOTE] Submitting Subordinate certificate request to Root CA" -ForegroundColor Magenta
-    certreq -config $OfflineRootCAServer\$OfflineRootCAName -submit -attrib "CertificateTemplate:SubCA" $SubordinateCAReq.Fullname | Out-Null
+    certreq -config $OfflineRootCAServer\$OfflineRootCAName -submit -attrib "CertificateTemplate:SubCA" $SubordinateCAReq.Fullname
     
     # Authorize Certificate Request
     Write-Host "[REMOTE] Issuing Subordinate certificate" -ForegroundColor Magenta
-    certutil -resubmit 2 | Out-Null
+    certutil -resubmit 2
     
     # Retrieve Subordinate CA certificate
     Write-Host "[REMOTE] Retrieving/Exporting Subordinate certificate" -ForegroundColor Magenta
-    certreq -config $OfflineRootCAServer\$OfflineRootCAName -retrieve 2 "C:\CAConfig\SubordinateCA.crt" | Out-Null
+    certreq -config $OfflineRootCAServer\$OfflineRootCAName -retrieve 2 "C:\CAConfig\SubordinateCA.crt"
     
     # Rename Root CA certificate (remove server name)
     Write-Host "[REMOTE] Correcting certificate filename and cleanup" -ForegroundColor Magenta
@@ -129,15 +129,15 @@ $RootCACRL = Get-ChildItem "C:\Windows\system32\CertSrv\CertEnroll\*.crl"  | Out
 
 # Publish Root CA certificate to AD
 Write-Host "[EXEC] Publish Root CA certificate to AD" -ForegroundColor Green
-certutil.exe -dsPublish -f $RootCACert.FullName RootCA  | Out-Null
+certutil.exe -dsPublish -f $RootCACert.FullName RootCA
 
 # Publish Root CA certificates to Subordinate server
 Write-Host "[EXEC] Add Root CA certificate to Subordinate CA server" -ForegroundColor Green
-certutil.exe -addstore -f root $RootCACert.FullName  | Out-Null
-certutil.exe -addstore -f root $RootCACRL.FullName  | Out-Null
+certutil.exe -addstore -f root $RootCACert.FullName
+certutil.exe -addstore -f root $RootCACRL.FullName
 
 Write-Host "[EXEC] Install Subordinate CA certificate to server" -ForegroundColor Green
-certutil.exe -installcert C:\Windows\System32\CertSrv\CertEnroll\SubordinateCA.crt  | Out-Null
+certutil.exe -installcert C:\Windows\System32\CertSrv\CertEnroll\SubordinateCA.crt
 
 Write-Host "[EXEC] Customizing AD Certificate Services" -ForegroundColor Green
 
