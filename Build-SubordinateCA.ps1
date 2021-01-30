@@ -2,7 +2,7 @@
 # Invoke-WebRequest -usebasicparsing -uri "https://raw.githubusercontent.com/SUBnet192/Scripts/master/Build-SubordinateCA.ps1" | Invoke-Expression
 
 Clear-Host
-Write-Host "Building Subordinate CA (Revision 0.5.3)" -ForegroundColor Green
+Write-Host "Building Subordinate CA (Revision 0.5.5)" -ForegroundColor Green
 Write-host "`n"
 
 Write-Host "... Configure WinRM" -ForegroundColor Green
@@ -30,7 +30,7 @@ do {
 $response = $null
 
 Write-Host "... Install Windows Feature: AD Certificate Services" -ForegroundColor Green
-Add-WindowsFeature -Name ADCS-Cert-Authority -IncludeManagementTools
+Add-WindowsFeature -Name ADCS-Cert-Authority, ADCS-Web-Enrollment -IncludeManagementTools
 
 Write-Host "... Install and configure AD Certificate Services" -ForegroundColor Green
 do {
