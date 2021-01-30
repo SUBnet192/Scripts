@@ -2,19 +2,19 @@
 # Invoke-WebRequest -usebasicparsing -uri "https://raw.githubusercontent.com/SUBnet192/Scripts/master/Setup-CoreBasics.ps1" | Invoke-Expression
 
 # Set Powershell as default shell
-Set-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\' -Name Shell -Value 'powershell.exe'
+Set-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\' -Name Shell -Value 'powershell.exe' | Out-Null
 
 # Trust PowerShell Gallery
-Set-PSRepository PSGallery -InstallationPolicy Trusted
+Set-PSRepository PSGallery -InstallationPolicy Trusted | Out-Null
 
 # Install Default Modules
-Install-Module -Name PSWindowsUpdate
+Install-Module -Name PSWindowsUpdate | Out-Null
 
 # Set Execution Policy
-Set-ExecutionPolicy RemoteSigned -Force
+Set-ExecutionPolicy RemoteSigned -Force | Out-Null
 
 # Create Default Script Path
-New-Item -Path C:\ -Name Scripts -ItemType Directory
+New-Item -Path C:\ -Name Scripts -ItemType Directory -Force | Out-Null
 
 # Set Timezone
 Set-Timezone "Eastern Standard Time"
