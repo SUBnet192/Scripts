@@ -29,7 +29,7 @@
 $ErrorActionPreference = "Stop"
 
 Clear-Host
-Write-Host "Build-SubordinateCA.ps1 ---- Revision 1.1" -Foreground Magenta
+Write-Host "Build-SubordinateCA.ps1 ---- Revision 1.2" -Foreground Green
 Write-Host "[INIT] Configure WinRM" -ForegroundColor Cyan
 Set-Item WSMan:\localhost\Client\TrustedHosts -Value "*" -Force  | Out-Null
 
@@ -92,24 +92,24 @@ Write-Host "[EXEC] Triggering remote execution of certificate request" -Foregrou
 Invoke-Command $OfflineRootCAServer -credential $OfflineRootCACreds -scriptblock {
     # Initialize variables
     Write-Host "[REMOTE] Initialize variables" -ForegroundColor Magenta
-    $OfflineRootCAName = (get-itemproperty -Path HKLM:\SYSTEM\CurrentControlSet\Services\CertSvc\Configuration).Active | Out-Null
+    $OfflineRootCAName = (get-itemproperty -Path HKLM:\SYSTEM\CurrentControlSet\Services\CertSvc\Configuration).Active
     $OfflineRootCAServer = hostname
-    $SubordinateCAReq = Get-ChildItem "C:\CAConfig\*.req" | Out-Null
+    $SubordinateCAReq = Get-ChildItem "C:\CAConfig\*.req"
     
     # Submit CSR from Subordinate CA to the Root CA
-    Write-Host "[DEBUG] ORCAServer:$OfflineRootCAServer" -ForegroundColor Yellow
-    Write-Host "[DEBUG] ORCAName:$OfflineRootCAName" -ForegroundColor Yellow
-    Write-Host "[DEBUG] SubordinateCAReq:$SubordinateCAReq" -ForegroundColor Yellow
+    #Write-Host "[DEBUG] ORCAServer:$OfflineRootCAServer" -ForegroundColor Yellow
+    #Write-Host "[DEBUG] ORCAName:$OfflineRootCAName" -ForegroundColor Yellow
+    #Write-Host "[DEBUG] SubordinateCAReq:$SubordinateCAReq" -ForegroundColor Yellow
     Write-Host "[REMOTE] Submitting Subordinate certificate request to Root CA" -ForegroundColor Magenta
-    certreq -config $OfflineRootCAServer\$OfflineRootCAName -submit -attrib "CertificateTemplate:SubCA" $SubordinateCAReq.Fullname
+    certreq -config $OfflineRootCAServer\$OfflineRootCAName -submit -attrib "CertificateTemplate:SubCA" $SubordinateCAReq.Fullname | Out-Null
     
     # Authorize Certificate Request
     Write-Host "[REMOTE] Issuing Subordinate certificate" -ForegroundColor Magenta
-    certutil -resubmit 2
+    certutil -resubmit 2 | Out-Null
     
     # Retrieve Subordinate CA certificate
     Write-Host "[REMOTE] Retrieving/Exporting Subordinate certificate" -ForegroundColor Magenta
-    certreq -config $OfflineRootCAServer\$OfflineRootCAName -retrieve 2 "C:\CAConfig\SubordinateCA.crt"
+    certreq -config $OfflineRootCAServer\$OfflineRootCAName -retrieve 2 "C:\CAConfig\SubordinateCA.crt" | Out-Null
     
     # Rename Root CA certificate (remove server name)
     Write-Host "[REMOTE] Correcting certificate filename and cleanup" -ForegroundColor Magenta
@@ -124,20 +124,20 @@ Write-Host "[EXEC] Copy certificates and CRL from Root CA to Subordinate CA" -Fo
 Copy-Item X:\*.CRT -Destination C:\Windows\system32\CertSrv\CertEnroll | Out-Null
 Copy-Item X:\*.CRL -Destination C:\Windows\system32\CertSrv\CertEnroll | Out-Null
 
-$RootCACert = Get-ChildItem "C:\Windows\system32\CertSrv\CertEnroll\*.crt" -exclude "SubordinateCA.crt"  | Out-Null
-$RootCACRL = Get-ChildItem "C:\Windows\system32\CertSrv\CertEnroll\*.crl"  | Out-Null
+$RootCACert = Get-ChildItem "C:\Windows\system32\CertSrv\CertEnroll\*.crt" -exclude "SubordinateCA.crt"
+$RootCACRL = Get-ChildItem "C:\Windows\system32\CertSrv\CertEnroll\*.crl"
 
 # Publish Root CA certificate to AD
 Write-Host "[EXEC] Publish Root CA certificate to AD" -ForegroundColor Green
-certutil.exe -dsPublish -f $RootCACert.FullName RootCA
+certutil.exe -dsPublish -f $RootCACert.FullName RootCA  | Out-Null
 
 # Publish Root CA certificates to Subordinate server
 Write-Host "[EXEC] Add Root CA certificate to Subordinate CA server" -ForegroundColor Green
-certutil.exe -addstore -f root $RootCACert.FullName
-certutil.exe -addstore -f root $RootCACRL.FullName
+certutil.exe -addstore -f root $RootCACert.FullName  | Out-Null
+certutil.exe -addstore -f root $RootCACRL.FullName | Out-Null
 
 Write-Host "[EXEC] Install Subordinate CA certificate to server" -ForegroundColor Green
-certutil.exe -installcert C:\Windows\System32\CertSrv\CertEnroll\SubordinateCA.crt
+certutil.exe -installcert C:\Windows\System32\CertSrv\CertEnroll\SubordinateCA.crt | Out-Null
 
 Write-Host "[EXEC] Customizing AD Certificate Services" -ForegroundColor Green
 
@@ -151,7 +151,7 @@ do {
 $response = $null
 
 Write-Host "[EXEC] Setting up CRL distribution points" -ForegroundColor Green
-$crllist = Get-CACrlDistributionPoint  | Out-Null
+$crllist = Get-CACrlDistributionPoint
 foreach ($crl in $crllist) { 
     Remove-CACrlDistributionPoint $crl.uri -Force  | Out-Null
 }
@@ -163,15 +163,15 @@ Get-CAAuthorityInformationAccess | where { $_.Uri -like '*ldap*' -or $_.Uri -lik
 Add-CAAuthorityInformationAccess -Uri "http://$URL/certenroll/<CAName><CertificateName>.crt" -AddToCertificateAia -Force  | Out-Null
 
 Write-Host "[EXEC] Setting default values for issued certificates" -ForegroundColor Green
-certutil.exe -setreg CA\CRLPeriodUnits 2 
-certutil.exe -setreg CA\CRLPeriod "Weeks" 
-certutil.exe -setreg CA\CRLDeltaPeriodUnits 1 
-certutil.exe -setreg CA\CRLDeltaPeriod "Days" 
-certutil.exe -setreg CA\CRLOverlapPeriodUnits 12 
-certutil.exe -setreg CA\CRLOverlapPeriod "Hours" 
-certutil.exe -setreg CA\ValidityPeriodUnits 1
-certutil.exe -setreg CA\ValidityPeriod "Years" 
-certutil.exe -setreg CA\AuditFilter 127 
+certutil.exe -setreg CA\CRLPeriodUnits 2  | Out-Null
+certutil.exe -setreg CA\CRLPeriod "Weeks"  | Out-Null
+certutil.exe -setreg CA\CRLDeltaPeriodUnits 1  | Out-Null
+certutil.exe -setreg CA\CRLDeltaPeriod "Days"  | Out-Null
+certutil.exe -setreg CA\CRLOverlapPeriodUnits 12  | Out-Null
+certutil.exe -setreg CA\CRLOverlapPeriod "Hours"  | Out-Null
+certutil.exe -setreg CA\ValidityPeriodUnits 1 | Out-Null
+certutil.exe -setreg CA\ValidityPeriod "Years"  | Out-Null
+certutil.exe -setreg CA\AuditFilter 127  | Out-Null
 Write-Host "[EXEC] Restarting AD Certificate Services" -ForegroundColor Green
 Restart-Service certsvc | Out-Null
 Start-Sleep 5
@@ -197,7 +197,7 @@ if ($webManagementService.Status -eq "Running") {
  
 # Modify the EnableRemoteManagement property in the Windows Registry
 Write-Host "[EXEC] Setting the IIS EnableRemoteManagement property" -ForegroundColor Yellow
-$enableRemoteManagement = Get-ItemProperty HKLM:\SOFTWARE\Microsoft\WebManagement\Server -Name "EnableRemoteManagement"  | Out-Null
+$enableRemoteManagement = Get-ItemProperty HKLM:\SOFTWARE\Microsoft\WebManagement\Server -Name "EnableRemoteManagement"
 if ($enableRemoteManagement.EnableRemoteManagement -eq 0) {
     Set-ItemProperty HKLM:\SOFTWARE\Microsoft\WebManagement\Server -Name "EnableRemoteManagement" -Value 1 -ErrorAction Stop  | Out-Null
 }
