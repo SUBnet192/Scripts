@@ -258,7 +258,5 @@ New-ADGroup -Name "T-LAPS_MemberServers" -SamAccountName "T-LAPS_MemberServers" 
 New-ADGroup -Name "T-LAPS_Workstations" -SamAccountName "T-LAPS_Workstations" -GroupCategory Security -GroupScope Global -DisplayName "T-LAPS_Workstations" -Path "OU=Tasks,OU=Systems,OU=$RootOU,$ADDN" -Description "[TASKS] LAPS for Workstations Administration"
 
 # Delegate AD Tasks to Tasks groups
-# Configure and deploy LAPS
-# Configure and deploy Edge for Business
-
 # Enable AD Recycle Bin
+# Configure and deploy LAPS
