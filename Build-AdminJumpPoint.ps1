@@ -69,7 +69,7 @@ Remove-Item -Path C:\Temp -Recurse -Force
 Remove-Item C:\Scripts\specops.exe
 
 # Create default powershell profile for All Users / All Hosts
-Invoke-WebRequest -Uri "https://raw.githubusercontent.com/SUBnet192/Scripts/master/profile.ps1" -Outfile $PROFILE.AllusersAllHosts
+Invoke-WebRequest -Uri "https://raw.githubusercontent.com/SUBnet192/Scripts/master/psprofile.ps1" -Outfile $PROFILE.AllusersAllHosts
 
 # Reboot to complete installation
 Restart-Computer
