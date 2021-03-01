@@ -186,8 +186,6 @@ function Global:Prompt {
 #======================================================================================
 
 Set-Alias -name su -Value Start-PsElevatedSession
-Set-Alias -Name ff -Value Find-Files 
-Set-Alias -name ih -value invoke-history
 
 #======================================================================================
 # Final execution
