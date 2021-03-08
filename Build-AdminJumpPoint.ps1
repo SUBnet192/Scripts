@@ -22,9 +22,9 @@ msiexec /i $dlPath /qn /L*v log.txt SME_PORT=$port SSL_CERTIFICATE_OPTION=genera
 # Install Microsoft Cloud Services Powershell modules
 Install-Module -Name AzureAD
 Install-Module -Name MSOnline
-Import-Module Microsoft.Online.SharePoint.PowerShell -DisableNameChecking
-Import-Module ExchangeOnlineManagement
-Import-Module MicrosoftTeams
+Install-Module Microsoft.Online.SharePoint.PowerShell -DisableNameChecking
+Install-Module ExchangeOnlineManagement
+Install-Module MicrosoftTeams
 
 # Install VMware PowerCLI
 Install-Module -Name VMware.PowerCLI -AllowClobber
@@ -74,6 +74,9 @@ Remove-Item C:\Scripts\specops.exe
 
 # Create default powershell profile for All Users / All Hosts
 Invoke-WebRequest -Uri "https://raw.githubusercontent.com/SUBnet192/Scripts/master/psprofile.ps1" -Outfile $PROFILE.AllusersAllHosts
+
+# Uninstall Internet Explorer 11
+Disable-WindowsOptionalFeature -FeatureName Internet-Explorer-Optional-amd64 –Online -NoRestart
 
 # Reboot to complete installation
 Restart-Computer
