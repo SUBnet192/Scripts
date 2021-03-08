@@ -31,6 +31,7 @@ Install-Module -Name VMware.PowerCLI -AllowClobber
 Set-PowerCLIConfiguration -Scope AllUsers -ParticipateInCEIP $false -confirm:$false
 
 #Miscellaneous Powershell Modules
+Install-Module -Name Evergreen
 Install-Module -Name Testimo
 Install-Module -Name DSInternals
 Install-Module -Name PSPKI
