@@ -19,22 +19,18 @@ Invoke-WebRequest 'http://aka.ms/WACDownload' -OutFile $dlPath
 $port = 443
 msiexec /i $dlPath /qn /L*v log.txt SME_PORT=$port SSL_CERTIFICATE_OPTION=generate
 
-# Install Powershell modules
-Install-Module -Name VMware.PowerCLI -AllowClobber
-
+# Install Microsoft Cloud Services Powershell modules
 Install-Module -Name AzureAD
 Install-Module -Name MSOnline
-
-#SharePoint Online
 Import-Module Microsoft.Online.SharePoint.PowerShell -DisableNameChecking
-
-#Exchange Online
 Import-Module ExchangeOnlineManagement
-
-#Teams
 Import-Module MicrosoftTeams
 
-#Miscellaneous
+# Install VMware PowerCLI
+Install-Module -Name VMware.PowerCLI -AllowClobber
+Set-PowerCLIConfiguration -Scope AllUsers -ParticipateInCEIP $false -confirm:$false
+
+#Miscellaneous Powershell Modules
 Install-Module -Name Testimo
 Install-Module -Name DSInternals
 Install-Module -Name PSPKI
@@ -67,7 +63,6 @@ Choco install dbatools -y
 
 # Vmware related
 Choco install rvtools -y
-Set-PowerCLIConfiguration -Scope AllUsers -ParticipateInCEIP $false -confirm:$false
 
 # SpecOps GPUpdate
 Invoke-WebRequest -Uri "https://download.specopssoft.com/Release/gpupdate/specopsgpupdatesetup.exe" -OutFile C:\Sources\specops.exe
