@@ -30,7 +30,7 @@ Install-Module -Name MicrosoftTeams
 Install-Module -Name VMware.PowerCLI -AllowClobber
 Set-PowerCLIConfiguration -Scope AllUsers -ParticipateInCEIP $false -confirm:$false
 
-#Miscellaneous Powershell Modules
+#Miscellaneous Powershell Modules - Ignore missing modules warnings, a reboot is required.
 Install-Module -Name Evergreen
 Install-Module -Name Testimo
 Install-Module -Name DSInternals
