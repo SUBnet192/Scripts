@@ -7,8 +7,8 @@
 # Preparation
 Set-PSRepository PSGallery -InstallationPolicy Trusted
 Set-ExecutionPolicy RemoteSigned -Force
-New-Item -Path C:\ -Name Scripts -ItemType Directory
-New-Item -Path C:\ -Name Sources -ItemType Directory
+New-Item -Path C:\ -Name Scripts -ItemType Directory -Force
+New-Item -Path C:\ -Name Sources -ItemType Directory -Force
 
 # Install RSAT
 Install-WindowsFeature -IncludeAllSubFeature RSAT
@@ -22,9 +22,9 @@ msiexec /i $dlPath /qn /L*v log.txt SME_PORT=$port SSL_CERTIFICATE_OPTION=genera
 # Install Microsoft Cloud Services Powershell modules
 Install-Module -Name AzureAD
 Install-Module -Name MSOnline
-Install-Module Microsoft.Online.SharePoint.PowerShell -DisableNameChecking
-Install-Module ExchangeOnlineManagement
-Install-Module MicrosoftTeams
+Install-Module -Name Microsoft.Online.SharePoint.PowerShell
+Install-Module -Name ExchangeOnlineManagement
+Install-Module -Name MicrosoftTeams
 
 # Install VMware PowerCLI
 Install-Module -Name VMware.PowerCLI -AllowClobber
