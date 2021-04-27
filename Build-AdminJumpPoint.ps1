@@ -20,6 +20,7 @@ $port = 443
 msiexec /i $dlPath /qn /L*v log.txt SME_PORT=$port SSL_CERTIFICATE_OPTION=generate
 
 # Install Microsoft Cloud Services Powershell modules
+Install-Module -Name Az
 Install-Module -Name AzureAD
 Install-Module -Name MSOnline
 Install-Module -Name Microsoft.Online.SharePoint.PowerShell
