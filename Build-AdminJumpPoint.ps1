@@ -32,7 +32,6 @@ Install-Module -Name VMware.PowerCLI -AllowClobber
 Set-PowerCLIConfiguration -Scope AllUsers -ParticipateInCEIP $false -InvalidCertificateAction Ignore -confirm:$false 
 
 #Miscellaneous Powershell Modules - Ignore missing modules warnings, a reboot is required.
-Install-Module -Name Evergreen
 Install-Module -Name Testimo
 Install-Module -Name DSInternals
 Install-Module -Name PSPKI
