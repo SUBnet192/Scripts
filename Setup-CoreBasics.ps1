@@ -24,7 +24,7 @@ Set-Timezone "Eastern Standard Time"
 Invoke-WebRequest -usebasicparsing -uri "https://raw.githubusercontent.com/haavarstein/Applications/master/VMware/Tools/Install.ps1" | Invoke-Expression
 
 # Create default powershell profile for All Users / All Hosts
-Invoke-WebRequest -usebasicparsing -Uri "https://raw.githubusercontent.com/SUBnet192/Scripts/master/coreprofile.ps1" -Outfile $PROFILE.AllusersAllHosts
+Invoke-WebRequest -usebasicparsing -Uri "https://raw.githubusercontent.com/SUBnet192/Scripts/master/psprofile.ps1" -Outfile $PROFILE.AllusersAllHosts
 
 # Execute Windows Update
 Install-WindowsUpdate -Confirm: $False
