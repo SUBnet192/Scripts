@@ -75,8 +75,5 @@ Remove-Item C:\Scripts\specops.exe
 # Create default powershell profile for All Users / All Hosts
 Invoke-WebRequest -Uri "https://raw.githubusercontent.com/SUBnet192/Scripts/master/psprofile.ps1" -Outfile $PROFILE.AllusersAllHosts
 
-# Uninstall Internet Explorer 11
-dism /online /Disable-Feature /FeatureName:Internet-Explorer-Optional-amd64
-
 # Reboot to complete installation
 Restart-Computer
