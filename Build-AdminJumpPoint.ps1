@@ -1,5 +1,5 @@
 # Call this script from a powershell command prompt using this command:
-# Invoke-WebRequest -uri "https://raw.githubusercontent.com/SUBnet192/Scripts/master/Build-AdminJumpPoint.ps1" | Invoke-Expression
+# Invoke-WebRequest -uri "https://raw.githubusercontent.com/SUBnet192/Scripts/master/Build-AdminJumpPoint.ps1" -UseBasicParsing | Invoke-Expression
 
 # Force TLS 1.2 (Required by PowerShell Gallery and Chocolatey)
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
