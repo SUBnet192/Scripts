@@ -190,7 +190,7 @@ Set-Alias -name su -Value Start-PsElevatedSession
 #======================================================================================
 # Final execution
 #======================================================================================
-Set-ExecutionPolicy RemoteSigned -Force
+Set-ExecutionPolicy RemoteSigned -Scope CurrentUser -Force
 Go scripts
 
 #======================================================================================
